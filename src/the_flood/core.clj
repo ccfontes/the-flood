@@ -25,25 +25,23 @@
                    (= source-char (get-in img [i j])))]
     [[j i] source-char fill-char]))
 
-(defn -flood-fill [img frontier wrap]
-  (if (-> frontier count zero?)
-    img
-    (let [front (first frontier)
-          x (ffirst front)
-          y (-> front first second)
-          source-char (second front)
-          fill-char (last front)
-          w (-> img first count)
-          h (count img)]
-      (recur
-        (assoc-in img [y x] fill-char)
-        (if wrap
-          (concat (next frontier)
-          	      (next-frontier-wrap img [w h] [x y] source-char fill-char))
-          (concat (next frontier)
-          	      (next-frontier img [w h] [x y] source-char fill-char)))
-        wrap))))
-
-(defn flood-fill [img [x y] fill-char wrap]
+(defn flood-fill [img [x y] fill-char & [wrap]]
   (let [source-char (get-in img [y x])]
-    (-flood-fill img [[[x y] source-char fill-char]] wrap)))
+    (loop [img img
+           frontier [[[x y] source-char fill-char]]]
+      (if (-> frontier count zero?)
+        img
+        (let [front (first frontier)
+              x (ffirst front)
+              y (-> front first second)
+              source-char (second front)
+              fill-char (last front)
+              w (-> img first count)
+              h (count img)]
+          (recur
+            (assoc-in img [y x] fill-char)
+            (if wrap
+              (concat (next frontier)
+                      (next-frontier-wrap img [w h] [x y] source-char fill-char))
+              (concat (next frontier)
+                      (next-frontier img [w h] [x y] source-char fill-char)))))))))

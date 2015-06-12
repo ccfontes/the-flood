@@ -1,4 +1,4 @@
-(defproject the-flood "0.1.0"
+(defproject the-flood "0.1.1"
 
   :description "Clojure Library for the Flood Fill Algorithm"
 
@@ -12,5 +12,7 @@
 
   :repl-options {:init-ns the-flood.core}
 
-  :dependencies [[org.clojure/clojure "1.5.1"]])
+  :dependencies [[org.clojure/clojure "1.5.1"]]
+
+  :profiles {:dev {:dependencies [[midje "1.6.3"]]}})
 
